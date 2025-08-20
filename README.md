@@ -1,6 +1,6 @@
 # 语闻 (Yuwen)
 
-一个以中国历史人物为主题的单页互动解谜Web游戏。
+一个以历史人物为主题的单页互动解谜Web游戏。
 
 ## 项目概述
 
@@ -15,7 +15,7 @@
 
 2.  **AI服务集成与配置**:
     *   项目只与一个外部AI服务通信。
-    *   所有AI服务信息、系统Prompt模板和角色数据都存放在 `config/ai_config.json` 文件中。
+    *   所有AI服务信息、系统Prompt模板和角色数据都应该存放在 `config/ai_config.json` 文件中。
     *   线上的代码库中只存放了 `config/ai_config.json.example` 文件，在运行前请把它copy到 `config/ai_config.json` 文件中，替换其中的API Key。
     *   同义词处理由外部AI服务全权负责。
 
@@ -43,9 +43,8 @@
 ### 配置AI服务
 
 1.  获取您选择的AI服务的API Key。
-2.  编辑 `config/ai_config.json` 文件：
-    *   将 `endpoint` 替换为AI服务的实际API端点URL。
-    *   将 `YOUR_API_KEY_HERE` 替换为您获取到的真实API Key。
+2.  在运行前请把`config/ai_config.json.example`复制到 `config/ai_config.json` 文件中
+    *   将 `sk-xxxxxx` 替换为您获取到的真实API Key。
 3.  注意：由于是纯前端应用，API Key会暴露在客户端代码中，这是此架构的固有风险。
 
 ## 项目文件夹结构
