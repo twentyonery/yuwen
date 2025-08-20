@@ -16,6 +16,7 @@
 2.  **AI服务集成与配置**:
     *   项目只与一个外部AI服务通信。
     *   所有AI服务信息、系统Prompt模板和角色数据都存放在 `config/ai_config.json` 文件中。
+    *   线上的代码库中只存放了 `config/ai_config.json.example` 文件，在运行前请把它copy到 `config/ai_config.json` 文件中，替换其中的API Key。
     *   同义词处理由外部AI服务全权负责。
 
 ## 运行/部署指南
