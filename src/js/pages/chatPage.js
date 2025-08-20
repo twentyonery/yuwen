@@ -83,6 +83,9 @@ async function handleUserMessage() {
     displayMessage(message, 'user');
     chatHistory.push({ role: "user", content: message });
 
+    // 显示等待提示
+    const waitingMessageElement = displayMessage("古人低语，请耐心等待", 'ai waiting');
+
     try {
         // 创建要发送给AI的消息历史副本
         const messagesToSend = [...chatHistory];
@@ -101,6 +104,11 @@ async function handleUserMessage() {
 
         // 调用AI获取回复
         const aiResponse = await callAI(aiConfig, messagesToSend);
+        
+        // 移除等待提示
+        if (waitingMessageElement) {
+            waitingMessageElement.remove();
+        }
         
         // 显示AI回复
         displayMessage(aiResponse, 'ai');
@@ -122,11 +130,15 @@ async function handleUserMessage() {
             // 延迟跳转，让用户看到最后的回复
             setTimeout(() => {
                 window.location.href = '../pages/result.html';
-            }, 1500);
+            }, 5000);
         }
 
     } catch (error) {
         console.error("Error getting AI response:", error);
+        // 移除等待提示
+        if (waitingMessageElement) {
+            waitingMessageElement.remove();
+        }
         displayMessage("抱歉，与历史人物的连接似乎中断了。请稍后再试。", 'ai');
     } finally {
         // 重新启用输入和按钮
@@ -149,6 +161,9 @@ function displayMessage(message, sender) {
     chatHistoryElement.appendChild(messageElement);
     // 滚动到底部
     chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
+    
+    // 返回消息元素，以便可以稍后移除
+    return messageElement;
 }
 
 // 页面加载完成后初始化

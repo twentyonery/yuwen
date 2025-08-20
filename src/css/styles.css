@@ -58,6 +58,31 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+/* 音乐控制按钮样式 */
+.music-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.music-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+.music-button:hover {
+    background-color: #1a252f;
+}
+
 /* --- 交互页 (chat.html) --- */
 .chat-page {
     display: flex;
