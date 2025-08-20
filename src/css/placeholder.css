@@ -1,0 +1,55 @@
+/*
+ * 注意：以下CSS代码片段来自 Bootstrap v5.3 的源码，用于实现简单的占位符/骨架屏效果。
+ * 它已被修改以适应本项目的命名空间，避免与Bootstrap完整库的潜在冲突。
+ * 原始版权声明:
+ * Bootstrap v5.3.3 (https://getbootstrap.com/)
+ * Copyright 2011-2024 The Bootstrap Authors
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+ .placeholder-yw {
+    display: inline-block;
+    min-height: 1em;
+    vertical-align: middle;
+    cursor: wait;
+    background-color: currentcolor;
+    opacity: 0.5;
+  }
+  .placeholder-yw.btn-yw::before {
+    display: inline-block;
+    content: "";
+  }
+  
+  .placeholder-yw-xs {
+    min-height: 0.6em;
+  }
+  
+  .placeholder-yw-sm {
+    min-height: 0.8em;
+  }
+  
+  .placeholder-yw-lg {
+    min-height: 1.2em;
+  }
+  
+  .placeholder-yw-glow {
+    animation: placeholder-glow-yw 2s ease-in-out infinite;
+  }
+  
+  @keyframes placeholder-glow-yw {
+    50% {
+      opacity: 0.2;
+    }
+  }
+  
+  .placeholder-yw-wave {
+    mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
+    mask-size: 200% 100%;
+    animation: placeholder-wave-yw 2s linear infinite;
+  }
+  
+  @keyframes placeholder-wave-yw {
+    100% {
+      mask-position: -200% 0%;
+    }
+  }
