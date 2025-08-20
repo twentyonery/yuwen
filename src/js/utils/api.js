@@ -1,12 +1,27 @@
 // src/js/utils/api.js
 
 /**
+ * 根据当前页面路径确定配置文件的相对路径
+ * @returns {string} 配置文件的相对路径
+ */
+function getConfigPath() {
+    // 检查当前页面URL是否包含src/pages路径
+    if (window.location.pathname.includes('src/pages')) {
+        // 通过start.html/chat.html/result.html访问
+        return '../../config/ai_config.json';
+    } else {
+        // 通过index.html访问
+        return 'config/ai_config.json';
+    }
+}
+
+/**
  * 从配置文件加载AI配置
  * @returns {Promise<Object>} 解析后的配置对象
  */
 export async function loadAIConfig() {
     try {
-        const response = await fetch('../../config/ai_config.json');
+        const response = await fetch(getConfigPath());
         if (!response.ok) {
             throw new Error(`Failed to load config: ${response.status}`);
         }

@@ -7,6 +7,56 @@ let selectedCharacter = null;
 let chatHistory = [];
 
 /**
+ * 根据当前页面路径确定图片资源的相对路径
+ * @returns {string} 图片资源的相对路径前缀
+ */
+function getImagePathPrefix() {
+    // 检查当前页面URL是否包含src/pages路径
+    if (window.location.pathname.includes('src/pages')) {
+        // 通过chat.html访问
+        return '../../public/assets/relics/';
+    } else {
+        // 通过其他路径访问
+        return 'public/assets/relics/';
+    }
+}
+
+/**
+ * 根据当前页面路径确定音乐资源的相对路径
+ * @param {string} musicFile - 音乐文件名
+ * @returns {string} 音乐资源的相对路径
+ */
+function getMusicPath(musicFile) {
+    // 检查当前页面URL是否包含src/pages路径
+    if (window.location.pathname.includes('src/pages')) {
+        // 通过chat.html访问
+        return `../../public/assets/music/${musicFile}`;
+    } else {
+        // 通过其他路径访问
+        return `public/assets/music/${musicFile}`;
+    }
+}
+
+/**
+ * 根据角色ID获取对应的背景音乐文件名
+ * @param {string} characterId - 角色ID
+ * @returns {string} 音乐文件名
+ */
+function getCharacterMusicFile(characterId) {
+    const musicMap = {
+        'zhang_heng': 'chat (1).mp3',
+        'wang_zhihuan': 'chat (2).mp3',
+        'jiang_kui': 'chat (3).mp3',
+        'xipatiya': 'chat (4).mp3',
+        'zhang_qian': 'chat (5).mp3',
+        'cao_xueqin': 'chat (6).mp3',
+        'wang_ximeng': 'chat (7).mp3'
+    };
+    
+    return musicMap[characterId] || '1.mp3'; // 默认使用1.mp3
+}
+
+/**
  * 初始化交互页
  */
 async function initChatPage() {
@@ -30,6 +80,62 @@ async function initChatPage() {
             window.location.href = '../../index.html';
             return;
         }
+
+        // 设置背景图片
+        const imagePathPrefix = getImagePathPrefix();
+        const chatPage = document.querySelector('.chat-page');
+        chatPage.style.backgroundImage = `url('${imagePathPrefix}start.jpg')`;
+        chatPage.style.backgroundSize = 'cover';
+        chatPage.style.backgroundPosition = 'center';
+        chatPage.style.backgroundRepeat = 'no-repeat';
+        chatPage.style.minHeight = '100vh';
+        chatPage.style.padding = '20px';
+        chatPage.style.boxSizing = 'border-box';
+
+        // 获取角色对应的背景音乐
+        const musicFile = getCharacterMusicFile(characterId);
+        const musicPath = getMusicPath(musicFile);
+        
+        // 创建背景音乐元素
+        const bgMusic = new Audio(musicPath);
+        bgMusic.loop = true; // 循环播放
+        let isPlaying = false;
+
+        // 创建音乐控制按钮
+        const musicControl = document.createElement('div');
+        musicControl.className = 'music-control';
+        musicControl.innerHTML = `
+            <button class="music-button" id="music-toggle">🔊</button>
+        `;
+        document.body.appendChild(musicControl);
+
+        // 添加音乐控制逻辑
+        const musicButton = document.getElementById('music-toggle');
+        
+        // 尝试自动播放背景音乐
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            musicButton.textContent = '🔊';
+        }).catch(error => {
+            // 自动播放失败，可能是因为浏览器策略限制
+            console.warn('自动播放背景音乐失败，需要用户交互:', error);
+            musicButton.textContent = '🔇'; // 显示为暂停状态
+        });
+
+        musicButton.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicButton.textContent = '🔇';
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicButton.textContent = '🔊';
+                    isPlaying = true;
+                }).catch(error => {
+                    console.error('播放背景音乐失败:', error);
+                });
+            }
+        });
 
         // 更新页面标题，隐藏真实姓名
         const titleText = `与神秘历史人物对话`;
