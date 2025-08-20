@@ -14,6 +14,7 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     min-height: 100vh;
     box-sizing: border-box;
+    position: relative; /* 为音乐控制按钮提供相对定位 */
 }
 
 /* --- 开始页 (start.html) --- */
@@ -83,7 +84,7 @@ body {
 /* 音乐控制按钮样式 */
 .music-control {
     position: fixed;
-    bottom: 20px;
+    top: 20px;
     right: 20px;
     z-index: 1000;
 }
@@ -195,20 +196,42 @@ body {
 /* --- 结果页 (result.html) --- */
 .result-page {
     text-align: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 从底部开始排列内容 */
 }
 
 .result-page h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 1.8em;
+    margin: 15px auto;
     color: #2c3e50;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 10px 20px;
+    border-radius: 8px;
+    max-width: 90%;
 }
 
 .result-page .character-info {
-    font-size: 1em;
+    font-size: 0.9em;
     line-height: 1.6;
     text-align: left;
-    margin-bottom: 30px;
+    margin: 15px auto;
     white-space: pre-wrap;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 90%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+    overflow-y: auto;
+    max-height: 30vh;
 }
 
 #back-button {
@@ -216,9 +239,12 @@ body {
     background-color: #2c3e50;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1.1em;
+    font-size: 1em;
+    margin: 15px auto 30px; /* 底部增加更多边距 */
+    transition: background-color 0.3s;
+    max-width: 200px;
 }
 
 #back-button:hover {

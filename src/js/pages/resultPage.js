@@ -2,6 +2,40 @@
 
 import { loadAIConfig } from '../utils/api.js';
 
+/**
+ * 根据当前页面路径确定图片资源的相对路径
+ * @returns {string} 图片资源的相对路径前缀
+ */
+function getImagePathPrefix() {
+    // 检查当前页面URL是否包含src/pages路径
+    if (window.location.pathname.includes('src/pages')) {
+        // 通过result.html访问
+        return '../../public/assets/relics/';
+    } else {
+        // 通过其他路径访问
+        return 'public/assets/relics/';
+    }
+}
+
+/**
+ * 根据角色ID获取对应的背景图片文件名
+ * @param {string} characterId - 角色ID
+ * @returns {string} 背景图片文件名
+ */
+function getCharacterBackgroundImage(characterId) {
+    const imageMap = {
+        'zhang_heng': 'zhangheng2.jpg',
+        'wang_zhihuan': 'wangzhihuan2.jpg',
+        'jiang_kui': 'jiangkui2.jpg',
+        'xipatiya': 'xipatiya2.jpg',
+        'zhang_qian': 'zhnagqian2.jpg',  // 注意：文件名拼写与角色ID略有不同
+        'cao_xueqin': 'caoxueqin2.jpg',
+        'wang_ximeng': 'wangximeng2.jpg'
+    };
+    
+    return imageMap[characterId] || 'start.jpg'; // 默认使用start.jpg
+}
+
 // 为每个角色准备的详细介绍文本
 // 在实际项目中，这些文本可以更长、更详细，甚至可以从一个单独的数据文件加载
 const characterDetails = {
@@ -77,6 +111,18 @@ async function initResultPage() {
             window.location.href = '../../index.html';
             return;
         }
+
+        // 设置背景图片为对应人物图像(名字+2.jpg)
+        const imagePathPrefix = getImagePathPrefix();
+        const backgroundImage = getCharacterBackgroundImage(characterId);
+        const resultPage = document.querySelector('.result-page');
+        resultPage.style.backgroundImage = `url('${imagePathPrefix}${backgroundImage}')`;
+        resultPage.style.backgroundSize = 'cover';
+        resultPage.style.backgroundPosition = 'center';
+        resultPage.style.backgroundRepeat = 'no-repeat';
+        resultPage.style.minHeight = '100vh';
+        resultPage.style.padding = '20px';
+        resultPage.style.boxSizing = 'border-box';
 
         // 显示角色名称
         document.getElementById('character-name').textContent = character.display_name;

@@ -18,6 +18,19 @@ function getImagePathPrefix() {
 }
 
 /**
+ * 根据角色ID获取正确的图片文件名
+ * @param {string} characterId - 角色ID
+ * @returns {string} 图片文件名
+ */
+function getCharacterImageName(characterId) {
+    // 特殊处理xipatiya角色，因为文件名不一致
+    if (characterId === 'xipatiya') {
+        return 'xi-patiya.jpg';
+    }
+    return `${characterId}.jpg`;
+}
+
+/**
  * 根据当前页面路径确定页面跳转的基础路径
  * @returns {string} 页面跳转的基础路径
  */
@@ -134,6 +147,16 @@ async function initStartPage() {
         musicControl.innerHTML = `
             <button class="music-button" id="music-toggle">🔊</button>
         `;
+        
+        // 设置按钮样式以确保显示在右上角
+        musicControl.style.position = 'fixed';
+        musicControl.style.top = '20px';
+        musicControl.style.right = '20px';
+        musicControl.style.zIndex = '1000';
+        musicControl.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+        musicControl.style.borderRadius = '50%';
+        musicControl.style.padding = '8px';
+        
         document.body.appendChild(musicControl);
 
         // 添加音乐控制逻辑
@@ -188,7 +211,9 @@ async function initStartPage() {
             relicDiv.dataset.characterId = character.id;
 
             const img = document.createElement('img');
-            img.src = `${imagePathPrefix}${character.id}.jpg`;
+            // 使用特殊处理函数获取正确的图片文件名
+            const imageName = getCharacterImageName(character.id);
+            img.src = `${imagePathPrefix}${imageName}`;
             img.alt = `文物: ${character.display_name}`;
             img.onerror = function() {
                 console.error(`图片加载失败: ${this.src}`);
@@ -219,7 +244,9 @@ async function initStartPage() {
             relicDiv.dataset.characterId = character.id;
 
             const img = document.createElement('img');
-            img.src = `${imagePathPrefix}${character.id}.jpg`;
+            // 使用特殊处理函数获取正确的图片文件名
+            const imageName = getCharacterImageName(character.id);
+            img.src = `${imagePathPrefix}${imageName}`;
             img.alt = `文物: ${character.display_name}`;
             img.onerror = function() {
                 console.error(`图片加载失败: ${this.src}`);
